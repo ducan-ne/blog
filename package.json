@@ -21,6 +21,7 @@
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "date-fns": "^2.30.0",
+    "hono": "^4.2.6",
     "ogcool": "^0.1.11",
     "react": "0.0.0-experimental-16d053d59-20230506",
     "react-dev": "github:reactjs/react.dev",

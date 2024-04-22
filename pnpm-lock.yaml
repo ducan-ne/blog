@@ -37,6 +37,9 @@ dependencies:
   date-fns:
     specifier: ^2.30.0
     version: 2.30.0
+  hono:
+    specifier: ^4.2.6
+    version: 4.2.6
   ogcool:
     specifier: ^0.1.11
     version: 0.1.11
@@ -45,7 +48,7 @@ dependencies:
     version: 0.0.0-experimental-16d053d59-20230506
   react-dev:
     specifier: github:reactjs/react.dev
-    version: github.com/reactjs/react.dev/37a8d646bfab5b11a583e963f3bc0429270c0b36(@algolia/client-search@4.23.3)(@babel/core@7.24.4)(@lezer/common@1.1.0)(@types/react@18.2.25)
+    version: github.com/reactjs/react.dev/07cbd001f936c22f731e5741e9853ffcdfb3fedd(@algolia/client-search@4.23.3)(@babel/core@7.24.4)(@lezer/common@1.1.0)(@types/react@18.2.25)
   react-dom:
     specifier: 0.0.0-experimental-16d053d59-20230506
     version: 0.0.0-experimental-16d053d59-20230506(react@0.0.0-experimental-16d053d59-20230506)
@@ -3520,6 +3523,11 @@ packages:
       property-information: 6.3.0
       space-separated-tokens: 2.0.2
 
+  /hono@4.2.6:
+    resolution: {integrity: sha512-AtbHZJYWsm+uFHLz0C6xltX7hjOV44a55gSEGBfoQOJ00KSxEUOoiIkmd+NXfapNX0j2GCKhqMmYeegBdHRwcQ==}
+    engines: {node: '>=16.0.0'}
+    dev: false
+
   /html-escaper@3.0.3:
     resolution: {integrity: sha512-RuMffC89BOWQoY0WKGpIhn5gX3iI54O6nRA0yC124NYVtzjmFWBIiFd8M0x+ZdX0P9R4lADg1mgP8C7PxGOWuQ==}
 
@@ -6611,9 +6619,9 @@ packages:
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
 
-  github.com/reactjs/react.dev/37a8d646bfab5b11a583e963f3bc0429270c0b36(@algolia/client-search@4.23.3)(@babel/core@7.24.4)(@lezer/common@1.1.0)(@types/react@18.2.25):
-    resolution: {tarball: https://codeload.github.com/reactjs/react.dev/tar.gz/37a8d646bfab5b11a583e963f3bc0429270c0b36}
-    id: github.com/reactjs/react.dev/37a8d646bfab5b11a583e963f3bc0429270c0b36
+  github.com/reactjs/react.dev/07cbd001f936c22f731e5741e9853ffcdfb3fedd(@algolia/client-search@4.23.3)(@babel/core@7.24.4)(@lezer/common@1.1.0)(@types/react@18.2.25):
+    resolution: {tarball: https://codeload.github.com/reactjs/react.dev/tar.gz/07cbd001f936c22f731e5741e9853ffcdfb3fedd}
+    id: github.com/reactjs/react.dev/07cbd001f936c22f731e5741e9853ffcdfb3fedd
     name: react-dev
     version: 1.0.0
     engines: {node: ^16.8.0 || ^18.0.0 || ^19.0.0 || ^20.0.0 || ^21.0.0}
