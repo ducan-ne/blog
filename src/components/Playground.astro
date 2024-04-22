@@ -5,13 +5,15 @@ type Props = {
 import fs from "fs"
 import Playground from './Playground';
 
-const fileContents = Object.keys(Astro.props.files).map((k) => {
-  return {
-    name: `src/${k}`,
-    code: fs.readFileSync(process.cwd() + '/src/files/'+ Astro.props.files[k], 'utf-8').toString(),
-    active: k === Astro.props.active
-  }
-})
+const fileContents = [
+  ...Object.keys(Astro.props.files).map((k) => {
+    return {
+      name: `src/${k}`,
+      code: fs.readFileSync(process.cwd() + '/src/files/'+ Astro.props.files[k], 'utf-8').toString(),
+      active: k === Astro.props.active
+    }
+  }),
+]
 ---
 
 <Playground client:visible files={fileContents}>

@@ -11,9 +11,9 @@ io.on("connection", (socket) => {
       todos: [{
         id: 1,
         text: 'hello',
-        completed: false
+        completed: false,
       }],
-      componentUrl: ''
+      componentUrl: 'https://hard-pig-89-3g9tt4qmhcvb.deno.dev/todo.js'
     })
   })
 
@@ -24,7 +24,7 @@ io.on("connection", (socket) => {
 
 const handler = io.handler()
 await serve(async (req, connInfo) => {
-  if (req.url === '/todo.js') {
+  if (req.url.endsWith('/todo.js')) {
     return new Response(`
       import React from 'https://cdn.skypack.dev/react@18';
       export function TodoList({ todo }) {

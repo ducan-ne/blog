@@ -24,7 +24,7 @@ export default defineConfig({
   adapter: deno(),
   vite: {
     optimizeDeps: {
-      entries: ['eslint/lib/linter'],
+      entries: ['eslint/lib/linter/linter'],
       esbuildOptions: {
         loader: {
           '.js': 'jsx',

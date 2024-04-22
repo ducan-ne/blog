@@ -1,13 +1,11 @@
 // deno-lint-ignore ban-ts-comment
 // @ts-ignore
-import type {LoadingOverlayState} from '@codesandbox/sandpack-react/unstyled'
-
-import Sandpack2 from 'react-dev/src/components/MDX/Sandpack'
+import Sandpack from 'react-dev/src/components/MDX/Sandpack'
 
 const SandpackFragment = ({ children }: any) => children as any
 SandpackFragment.mdxName = 'pre'
 
-export default function({
+export default function Playground({
   files,
   ...props
 }: {
@@ -15,7 +13,7 @@ export default function({
 }) {
   return (
     <div className="not-prose">
-      <Sandpack2>
+      <Sandpack>
         {files.map(({ name, code, active }, i) => (
           <SandpackFragment key={name}>
             <SandpackFragment meta={`${name} ${active && 'active'}`}>
@@ -23,7 +21,7 @@ export default function({
             </SandpackFragment>
           </SandpackFragment>
         ))}
-      </Sandpack2>
+      </Sandpack>
     </div>
   )
 }
