@@ -1,0 +1,30 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import {
+    fade,
+    slide,
+} from 'astro:transitions';
+
+type Props = CollectionEntry<'blog'>['data'] & {
+    stripHeader?: boolean;
+}
+
+const { title, stripHeader } = Astro.props;
+---
+
+<html lang="en" class="antialiased">
+<head>
+    <BaseHead title={title} description="" />
+<body class="flex no-scrollbar flex-col h-full bg-neutral-50 mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 pt-8 pb-16">
+{!stripHeader && <Header/>}
+<main transition:animate={slide({ duration: '0.4s' })}>
+    <article class="prose">
+        <h1 transition:name={`note-${title}`} transition:animate={fade({ duration: '0.1s' })}>{title}</h1>
+        <hr class="my-2 mb-4" />
+        <slot />
+    </article>
+</main>
+</body>
+</html>

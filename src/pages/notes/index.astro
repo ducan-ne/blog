@@ -1,0 +1,51 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import {
+  SITE_TITLE,
+  SITE_DESCRIPTION,
+} from '../../consts';
+import { getCollection } from 'astro:content';
+import {
+    fade,
+    slide,
+} from 'astro:transitions';
+
+const posts = (
+  await getCollection('notes')
+).filter((note) => !note.data.private);
+---
+
+<!doctype html>
+<html lang="en" class="antialiased">
+<head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+</head>
+<body class="flex no-scrollbar flex-col h-full bg-neutral-50 mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 pt-8 pb-16">
+<Header />
+<main transition:animate={slide({ duration: '0.4s' })}>
+    <section>
+        <ul class="flex flex-col divide-y border-y divide-neutral-100 border-neutral-100">
+          {posts.map((note) => (
+            <ul class="py-2.5 group">
+                    <a href={`/notes/${note.slug}`} class="flex items-center space-x-4">
+                        <p class="text-neutral-400 font-medium text-sm">
+                            <time datetime={note.data.created.toISOString()}>
+                                {
+                                    note.data.created.toLocaleDateString('en-us', {
+                                        year: 'numeric',
+                                        month: 'short',
+                                        day: 'numeric',
+                                    })
+                                }
+                            </time>
+                        </p>
+                        <p class="group-hover:underline" transition:name={`note-${note.data.title}`}>{note.data.title}</p>
+                    </a>
+              </ul>
+              ))}
+        </ul>
+    </section>
+</main>
+</body>
+</html>

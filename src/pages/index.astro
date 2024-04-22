@@ -1,0 +1,22 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import {
+  SITE_TITLE,
+  SITE_DESCRIPTION,
+} from '../consts';
+import { slide } from 'astro:transitions';
+---
+
+<!doctype html>
+<html lang="en" class="antialiased">
+<head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+</head>
+<body class="flex no-scrollbar flex-col h-full bg-neutral-50 mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 pt-8 pb-16">
+<Header title={SITE_TITLE} />
+<main transition:animate={slide({ duration: '0.4s' })}>
+    <h1>🧑‍🚀 Hello, Astronaut!</h1>
+</main>
+</body>
+</html>
