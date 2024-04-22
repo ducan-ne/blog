@@ -7,7 +7,8 @@ import react from "@astrojs/react";
 import slug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 
-// https://astro.build/config
+const visit = (await import('unist-util-visit')).default;
+
 export default defineConfig({
   site: 'https://ann.deno.dev',
   // site: 'http://localhost:4321',
@@ -54,6 +55,25 @@ export default defineConfig({
       langs: [],
       wrap: true
     },
-    rehypePlugins: [slug, rehypeAutolinkHeadings],
+    rehypePlugins: [
+      slug,
+      rehypeAutolinkHeadings,
+      function rehypeMetaAsAttributes() {
+        return (tree) => {
+          visit(tree, 'element', (node) => {
+            if (
+              // @ts-expect-error -- tagName is a valid property
+              node.tagName === 'code' &&
+              node.data &&
+              node.data.meta
+            ) {
+              console.log(node)
+              // @ts-expect-error -- properties is a valid property
+              node.properties.meta = node.data.meta;
+            }
+          });
+        };
+      },
+    ],
   },
 });
