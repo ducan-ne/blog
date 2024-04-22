@@ -67,7 +67,6 @@ export default defineConfig({
               node.data &&
               node.data.meta
             ) {
-              console.log(node)
               // @ts-expect-error -- properties is a valid property
               node.properties.meta = node.data.meta;
             }

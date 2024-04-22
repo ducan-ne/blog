@@ -1,5 +1,6 @@
 // @ts-ignore
 import theme from './internal/react-dev/tailwind.config.js'
+import generated from '@tailwindcss/typography'
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -9,6 +10,6 @@ export default {
 	],
 	theme: theme,
 	plugins: [
-		require('@tailwindcss/typography'),
+		generated,
 	],
 }
