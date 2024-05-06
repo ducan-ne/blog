@@ -1,20 +1,20 @@
 ---
 type Props = {
-	files: Record<string, string>
-}
-import fs from "fs"
-import Playground from './Playground';
+  name: string;
+};
+import fs from "fs";
+import Playground from "./Playground";
 
+const dir = process.cwd() + "/src/files/" + Astro.props.name;
 const fileContents = [
-  ...Object.keys(Astro.props.files).map((k) => {
+  ...fs.readdirSync(dir).map((k) => {
     return {
       name: `src/${k}`,
-      code: fs.readFileSync(process.cwd() + '/src/files/'+ Astro.props.files[k], 'utf-8').toString(),
-      active: k === Astro.props.active
-    }
+      code: fs.readFileSync(dir + "/" + k, "utf-8").toString(),
+      active: k === Astro.props.active,
+    };
   }),
-]
+];
 ---
 
-<Playground client:visible files={fileContents}>
-</Playground>
+<Playground client:visible files={fileContents} />

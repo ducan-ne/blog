@@ -1,29 +1,38 @@
 ---
-title: 'Lazy loading React Component though Websocket and More'
-description: 'Lorem ipsum dolor sit amet'
+title: "Lazy loading React Component though Websocket and More"
+description: "Lorem ipsum dolor sit amet"
 created: 2023-09-27T02:24
 updated: 2023-09-27T06:41
 draft: false
 ---
+
 <blockquote className="text-red-400">
-  This isn't a recommendation, and I don't advise using it in a production environment.
+  This isn't a recommendation, and I don't advise using it in a production
+  environment.
 </blockquote>
-Lately I had a chance to work with **Scratch GUI** and their React components, surprisingly the bundle size of the GUI is over *30MB* (15mb gzipped), like many others, I decided to lazy loading the React components, and it reminds me how the `lazy` api work.
+Lately I had a chance to work with **Scratch GUI** and their React components, surprisingly
+the bundle size of the GUI is over *30MB* (15mb gzipped), like many others, I decided
+to lazy loading the React components, and it reminds me how the `lazy` api work.
 
 ### What is Lazy
+
 According to [React documentation](https://react.dev/reference/react/lazy), it states that
->`lazy` lets you defer loading component’s code until it is rendered for the first time.
+
+> `lazy` lets you defer loading component’s code until it is rendered for the first time.
 
 In short, `lazy` helps you to split out your bundle into smaller chunks and load it when it's needed. I believe this terms is not new to anyone who has been working with React for a while.
 But trust me. This post will unlock your mind of how `lazy` works.
 Let take a look close at the `lazy` api
-```js
-import { lazy } from 'react';
 
-const MarkdownPreview = lazy(() => import('./MarkdownPreview.js'));
+```js
+import { lazy } from "react";
+
+const MarkdownPreview = lazy(() => import("./MarkdownPreview.js"));
 ```
+
 As you can see, `lazy` takes a function that returns a promise, and the promise should resolve to a module with a `default` export containing a React component.
 But if we read it carefully, we will notice that `lazy` accepts a function that return `thenable` function, aka promise, and the promise should resolve to a natural object with a `default` key that contains a React component, like this:
+
 ```
 {
   default: () => React.ReactNode
@@ -33,51 +42,57 @@ But if we read it carefully, we will notice that `lazy` accepts a function that 
 That's the `module` we just have talking about, `module` is just an object, right? We can create it by ourselves.
 
 So what's the point? Can we make the function argument like this? Is it valid?
-```js
-import { lazy } from 'react';
-import TheRealMarkDownPreview from './MarkdownPreview.js'
 
-const MarkdownPreview = lazy(async() => {
+```js
+import { lazy } from "react";
+import TheRealMarkDownPreview from "./MarkdownPreview.js";
+
+const MarkdownPreview = lazy(async () => {
   // just return the module, can we?
-  return TheRealMarkDownPreview
-})
+  return TheRealMarkDownPreview;
+});
 ```
+
 ```js
-import { lazy } from 'react';
+import { lazy } from "react";
 
-const MarkdownPreview = lazy(async() => {
-  await doSomething()
-  await doSomethingElse()
-  await fetchApi()
-  const theRealModule = await import('./MarkdownPreview.js')
+const MarkdownPreview = lazy(async () => {
+  await doSomething();
+  await doSomethingElse();
+  await fetchApi();
+  const theRealModule = await import("./MarkdownPreview.js");
 
-  return theRealModule
-})
+  return theRealModule;
+});
 ```
+
 Absolutely we can. The point here is, we can do whatever we want inside the function,
 as long as it returns a `thenable` function that resolves to a module with a `default` key that contains a React component.
 Even we didn't use `import('./MarkdownPreview.js')` directly, still fine.
+
 ### Loading React Component over Websocket?
+
 The blog title is just bluffing, but it's not that far.
 I believe that you have some understanding after reading the previous section.
 You may notice that you can do some tasks before returning the object module, but have you considered this scenario?
+
 ```js
-import { lazy } from 'react'
+import { lazy } from "react";
 
 // load my component via http
-const MarkdownPreview = lazy(async() => {
-  const res = await fetch('/api/load-component?name=MarkdownPreview')
-  const componentData = await res.json() // { jsUrl: 'https://another-website.com/dist/MarkdownPreview.js' }
+const MarkdownPreview = lazy(async () => {
+  const res = await fetch("/api/load-component?name=MarkdownPreview");
+  const componentData = await res.json(); // { jsUrl: 'https://another-website.com/dist/MarkdownPreview.js' }
   // just load the script by appending a script tag
-  await runScript(componentData.jsUrl)
+  await runScript(componentData.jsUrl);
   // the component is now available in the global scope,
   // it injects to the window object as `MarkdownPreview` variable
   // that's the logic, but not limited to this
-  const theModuleLoadedViaHttp = window.MarkdownPreview // { default: ReactComponent }
+  const theModuleLoadedViaHttp = window.MarkdownPreview; // { default: ReactComponent }
 
   // should be ok
-  return theModuleLoadedViaHttp
-})
+  return theModuleLoadedViaHttp;
+});
 ```
 
 But why? Why do we need to do that?
@@ -85,20 +100,14 @@ The goal is to free your mind from the documentation and encourage thinking outs
 With a fundamentally different understanding of the API, we can do more things.
 
 If you're still curious about use cases, here are a few examples:
+
 - A page or module that is accessible only to certain users. Load the module using HTTP and verify the user's permission before providing the component's URL.
 - Like how Facebook.com doing as now, they have a infrastructure to manage these things, like how to load components.
 - You can load the scripts from a CDN, it's not limited to React component, load anything you want.
-- Micro FE, huh?
+- Micro FE?
 
 Here is an implementation for loading a React component through websocket,
 I've also prepared a websocket server. You can give it a try on the playground.
 I think you will get the idea. [Server code](https://github.com/ducan-ne/blog/blob/main/code/websocket-component/index.js)
 
-import Playground from "@/components/Playground.astro";
-
-<Playground
-  files={{'App.js': 'component-websocket.js'}}
-  active="App.js"
->
-</Playground>
-
+<Playground name="react-websocket" active="App.js"></Playground>

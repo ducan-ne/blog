@@ -43,7 +43,7 @@ export default defineConfig({
     resolve: {
       preserveSymlinks: true,
       alias: {
-        '../../../../tailwind.config': '/Users/anduc/projects/blog/internal/react-dev/tailwind.config.js'
+        '../../../../tailwind.config': process.cwd() + '/internal/react-dev/tailwind.config.js'
       }
     },
     build: {

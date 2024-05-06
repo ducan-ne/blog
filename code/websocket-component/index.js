@@ -30,7 +30,7 @@ app.get(
             text: 'hello',
             completed: false,
           }],
-          componentUrl: 'https://websocket-component.mysubdomain.workers.dev/todo.js'
+          componentUrl: 'https://websocket-component.graphvn.workers.dev/todo.js'
         }))
       },
       onClose: () => {

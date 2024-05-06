@@ -1,9 +1,8 @@
 import {createElement, lazy, useEffect, useState} from 'react'
 
 const TodoRemote = lazy(async() => {
-  // console.log(await import('https://websocket-component.mysubdomain.workers.dev/todo.js'))
   return new Promise(resolve => {
-    const socket = new WebSocket('wss://websocket-component.mysubdomain.workers.dev/ws')
+    const socket = new WebSocket('wss://websocket-component.graphvn.workers.dev/ws')
     socket.addEventListener("open", (event) => {
       socket.send('hello')
     })

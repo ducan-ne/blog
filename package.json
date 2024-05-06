@@ -11,9 +11,11 @@
     "deploy": "deployctl deploy --project=ann --no-static --include=./dist --prod ./dist/server/entry.mjs"
   },
   "dependencies": {
+    "prettier": "^3.2.5",
+    "prettier-plugin-astro": "^0.13.0",
     "@astrojs/deno": "5.0.1",
     "@astrojs/mdx": "2.3.1",
-    "@astrojs/react": "3.3.0",
+    "@astrojs/react": "3.3.2",
     "@astrojs/rss": "4.0.5",
     "@astrojs/sitemap": "3.1.4",
     "@astrojs/tailwind": "^5.0.1",
@@ -24,7 +26,7 @@
     "hono": "^4.2.6",
     "ogcool": "^0.1.11",
     "react": "0.0.0-experimental-16d053d59-20230506",
-    "react-dev": "github:reactjs/react.dev",
+    "react-dev": "github:reactjs/react.dev#0e1ff1a94fdd8a5a0ae06cdb71fc0babdaa7b01e",
     "react-dom": "0.0.0-experimental-16d053d59-20230506",
     "rehype-autolink-headings": "^7.0.0",
     "rehype-slug": "^6.0.0",
