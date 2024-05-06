@@ -7,8 +7,6 @@ import react from "@astrojs/react";
 import slug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 
-const visit = (await import('unist-util-visit')).default;
-
 export default defineConfig({
   site: 'https://ann.deno.dev',
   // site: 'http://localhost:4321',
@@ -24,7 +22,8 @@ export default defineConfig({
   adapter: deno(),
   vite: {
     optimizeDeps: {
-      entries: ['eslint/lib/linter/linter'],
+      entries: ['eslint/lib/linter/linter', 'react-dev'],
+      disabled: false,
       esbuildOptions: {
         loader: {
           '.js': 'jsx',
@@ -39,7 +38,7 @@ export default defineConfig({
         'lz-string',
         'escape-carriage',
         'classnames',
-      ]
+      ],
     },
     resolve: {
       preserveSymlinks: true,
@@ -47,6 +46,15 @@ export default defineConfig({
         '../../../../tailwind.config': '/Users/anduc/projects/blog/internal/react-dev/tailwind.config.js'
       }
     },
+    build: {
+      onLog(level, log, handler) {
+        if (log.cause) {
+          console.log(log.cause)
+          return
+        }
+        handler(level, log)
+      }
+    }
   },
   image: {},
   markdown: {
@@ -58,21 +66,9 @@ export default defineConfig({
     rehypePlugins: [
       slug,
       rehypeAutolinkHeadings,
-      function rehypeMetaAsAttributes() {
-        return (tree) => {
-          visit(tree, 'element', (node) => {
-            if (
-              // @ts-expect-error -- tagName is a valid property
-              node.tagName === 'code' &&
-              node.data &&
-              node.data.meta
-            ) {
-              // @ts-expect-error -- properties is a valid property
-              node.properties.meta = node.data.meta;
-            }
-          });
-        };
-      },
     ],
   },
+  experimental: {
+    contentCollectionCache: true
+  }
 });

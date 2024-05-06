@@ -1,0 +1,167 @@
+---
+title: "Typescript project references and its use case"
+description: 'Lorem ipsum dolor sit amet'
+created: 2023-12-28T19:24
+updated: 2023-12-28T19:41
+draft: false
+---
+
+<blockquote className="text-red-400">
+  This post is written in Vietnamese
+</blockquote>
+
+## Giới thiệu
+Sau một thời gian làm việc với Vite, mình tò mò tại sao lại có 2 file `tsconfig.json` và `tsconfig.node.json`
+
+Sau một lúc tìm hiểu mình đã nắm được lí do, bởi vì môi trường ở `vite.config.ts` và `src` khác nhau, `vite.config.ts` chạy ở node.js, còn `src` chạy ở browser browser
+
+Vậy mình đã nghĩ, mình có thể apply pattern này vào use case nào trong project không. Hôm nay mình giới thiệu về 1 use case mà mình vừa nghĩ ra, đó là sử dụng nó thay monorepo, hoặc là share types giữa FE và API
+
+PS: mọi người có thể đọc trước ở đây https://github.com/ducan-ne/vite-tsconfig-reference và quay lại đây để tiếp tục xem về details
+## Implementation
+Như các project khác, mình dùng `bun create vite` để khởi tạo 1 project mới (hoặc là pnpm)
+
+Bởi vì lí do không dùng Next.js và sử dụng [cloudflare worker functions](https://developers.cloudflare.com/pages/functions/) nên mình cần 1 cách nào đấy để share types giữa FE và API, có 1 số cách sau để thực hiện
+- Monorepo
+- Dùng relative path `../../functions/api.ts`
+
+Mình chọn cách 2 vì ko muốn setup 1 monorepo quá mất thời gian với mình trong lúc này, nhưng vấn đề là import url quá dài `../../functions/api.ts`, sau một thời gian mình quyết định apply multi tsconfig.json files, sử dụng tsconfig reference để [chia project thành các phần nhỏ](https://www.typescriptlang.org/docs/handbook/project-references.html), các phần nhỏ có thể "hiểu" được config của lẫn nhau và không dẫn tới conflict alias (compilerOptions.paths)
+
+File tsconfig.json ví dụ:
+
+
+```json
+// API
+{  
+  "compilerOptions": {  
+    "target": "esnext",  
+    "jsx": "react-jsxdev",  
+    "lib": [  
+      "esnext"  
+    ],  
+    "module": "esnext",  
+    "moduleResolution": "node",  
+    "paths": {  
+      "@/*": ["./*"],  
+      "@pkg/*": ["../pkg/*"],  
+      "@fe/*": ["../src/*"]  
+    },  
+    "resolveJsonModule": true,  
+    "types": [  
+      "../src/vite-env.d.ts"  
+    ],  
+    "strict": true,  
+    "allowSyntheticDefaultImports": true,  
+    "esModuleInterop": true,  
+    "skipLibCheck": true  
+  },  
+  "references": [  
+    {  
+      "path": "../pkg/tsconfig.json"  
+    },  
+    {  
+      "path": "../tsconfig.json"  
+    }  
+  ],  
+  "include": ["**/*.ts", "**/*.tsx", "../src/vite-env.d.ts"]  
+}
+```
+
+
+```json
+// Frontend
+{  
+  "compilerOptions": {  
+    "target": "ES2020",  
+    "useDefineForClassFields": true,  
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],  
+    "module": "ESNext",  
+    "skipLibCheck": true,  
+  
+    /* Bundler mode */  
+    "moduleResolution": "bundler",  
+    "allowImportingTsExtensions": true,  
+    "resolveJsonModule": true,  
+    "isolatedModules": true,  
+    "noEmit": true,  
+    "jsx": "react-jsx",  
+  
+    /* Linting */  
+    "strict": true,  
+    "noUnusedLocals": true,  
+    "noUnusedParameters": true,  
+    "noFallthroughCasesInSwitch": true,  
+    "paths": {  
+      "@/*": ["./*"],  
+      "@api/*": ["./api/*"],  
+      "@pkg/*": ["./pkg/*"]  
+    }  
+  },  
+  "include": ["src"],  
+  "references": [{ "path": "./tsconfig.node.json" }]  
+}
+```
+
+Bây giờ, ở FE bạn có thể import module từ API, như sau
+```tsx
+// src/App.tsx
+import { useState } from 'react'  
+import reactLogo from './assets/react.svg'  
+import viteLogo from '/vite.svg'  
+import './App.css'  
+import { Test123 } from "@api/api1"  
+  
+console.log(Test123)  
+  
+function App() {  
+  const [count, setCount] = useState(0)  
+  
+  return (  
+    <>  
+      <div>  
+        <a href="https://vitejs.dev" target="_blank">  
+          <img src={viteLogo} className="logo" alt="Vite logo" />  
+        </a>  
+        <a href="https://react.dev" target="_blank">  
+          <img src={reactLogo} className="logo react" alt="React logo" />  
+        </a>  
+      </div>  
+      <h1>Vite + React</h1>  
+      <div className="card">  
+        <button onClick={() => setCount((count) => count + 1)}>  
+          count is {count}  
+        </button>  
+        <p>  
+          Edit <code>src/App.tsx</code> and save to test HMR  
+        </p>  
+      </div>  
+      <p className="read-the-docs">  
+        Click on the Vite and React logos to learn more  
+      </p>  
+    </>  
+  )  
+}  
+  
+export default App
+```
+
+Hoặc ngược lại từ api tới FE code
+```ts
+// api/api1.ts
+import { state, State } from "@fe/state"  
+import { FromPkg } from "@pkg/cache"  
+  
+export const Test123 = true  
+  
+const a: State = {  
+  test: true  
+}  
+console.log(a, state, FromPkg)
+```
+
+Lưu ý là bạn phải config alias ở vite config hoặc sử dụng `vite-tsconfig-paths` plugin để vite đọc alias từ file `tsconfig.json`
+
+## Lời kết
+Trong hầu hết trường hợp, monorepo có lẽ là lựa chọn tối ưu cho các yêu cầu tương tự, tuy nhiên để quản lý monorepo tốt có lẽ là việc không hề dễ dàng (hẹn bạn 1 bài vào năm sau về quản lý monorepo nhé), bạn có thể cân nhắc sử dụng giải pháp này để thay thế nếu yêu cầu không quá phức tạp, cũng như tận dụng được native feature đến từ typescript 
+
+Bạn có thể đọc thêm về Typescript project references tại https://www.typescriptlang.org/docs/handbook/project-references.html
