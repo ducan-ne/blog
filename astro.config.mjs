@@ -8,14 +8,22 @@ import slug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 
 export default defineConfig({
-  site: 'https://ann.deno.dev',
+  site: 'https://an.cyou',
   // site: 'http://localhost:4321',
   integrations: [
     react(),
     mdx({
       rehypePlugins: [slug, [rehypeAutolinkHeadings, {behavior: 'wrap'}]],
     }),
-    sitemap(),
+    sitemap({
+      serialize(item) {
+        // TODO filter draft blog
+        if (/priv/.test(item.url)) {
+          return undefined;
+        }
+        return item;
+      },
+    }),
     tailwind(),
   ],
   output: 'server',
@@ -43,12 +51,13 @@ export default defineConfig({
     resolve: {
       preserveSymlinks: true,
       alias: {
-        '../../../../tailwind.config': process.cwd() + '/internal/react-dev/tailwind.config.js'
+        '../../../../tailwind.config': `${process.cwd()}/internal/react-dev/tailwind.config.js`
       }
     },
     build: {
       onLog(level, log, handler) {
         if (log.cause) {
+          // biome-ignore lint/suspicious/noConsoleLog: <explanation>
           console.log(log.cause)
           return
         }

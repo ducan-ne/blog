@@ -5,10 +5,6 @@ import { Experiments } from "@/components/experiments";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
 import { getCollection } from "astro:content";
 import { fade, slide } from "astro:transitions";
-
-const posts = (await getCollection("notes")).filter(
-  (note) => !note.data.private,
-);
 ---
 
 <!doctype html>

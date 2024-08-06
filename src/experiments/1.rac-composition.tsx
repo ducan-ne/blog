@@ -117,6 +117,7 @@ function ConfirmDialogContent({ children }: { children: React.ReactNode }) {
   );
 }
 
+// biome-ignore lint/style/useNamingConvention: <explanation>
 export default function RACComposition() {
   return (
       <div className="flex flex-col gap-1">
