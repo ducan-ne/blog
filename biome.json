@@ -1,0 +1,26 @@
+{
+  "$schema": "https://esm.sh/@biomejs/biome@1.8.3/configuration_schema.json",
+  "javascript": {
+    "formatter": {
+      "semicolons": "asNeeded",
+      "jsxQuoteStyle": "double",
+      "quoteStyle": "double"
+    }
+  },
+  "linter": {
+    "rules": {
+      "suspicious": {
+        "noDebugger": "off",
+        "noConsoleLog": "info"
+      },
+      "style": {
+        "noShoutyConstants": "warn",
+        "useNamingConvention": "error",
+        "useNumberNamespace": "off"
+      },
+      "a11y": {
+        "noSvgWithoutTitle": "off"
+      }
+    }
+  }
+}
