@@ -1,24 +1,26 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
-import './globals.css'
-import './Sandpack.css'
-import ogcool from 'ogcool'
+import { ViewTransitions } from "astro:transitions";
+import "./globals.css";
+import "./Sandpack.css";
+import ogcool from "ogcool";
 
 interface Props {
-	title: string;
-	description: string;
-	image?: string;
+  title: string;
+  description?: string;
+  image?: string;
 }
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 
 const { title, description } = Astro.props;
-const image = ogcool('Wave', {
-  modifications: [{
-    name: "Text",
-    text: title,
-  }]
-})
+const image = ogcool("Wave", {
+  modifications: [
+    {
+      name: "Text",
+      text: title,
+    },
+  ],
+});
 ---
 
 <!-- Global Metadata -->
@@ -28,24 +30,24 @@ const image = ogcool('Wave', {
 <meta name="generator" content={Astro.generator} />
 
 <!-- Canonical URL -->
-<link rel="canonical" href={canonicalURL} />
+<link rel="canonical" href={canonicalUrl} />
 
 <!-- Primary Meta Tags -->
 <title>{title}</title>
 <meta name="title" content={title} />
-<meta name="description" content={description} />
+<meta name="description" content={description ?? "An see you"} />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
-<meta property="og:description" content={description} />
+<meta property="og:description" content={description ?? "An see you"} />
 <meta property="og:image" content={image} />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content={Astro.url} />
 <meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
+<meta property="twitter:description" content={description ?? "An see you"} />
 <meta property="twitter:image" content={image} />
-<ViewTransitions/>
+<ViewTransitions />

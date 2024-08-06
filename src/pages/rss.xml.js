@@ -21,7 +21,7 @@ export async function GET(context) {
   }))
 
   const collection = await getCollection('links')
-  const links = collection.reverse().map((link) => (
+  const links = collection.reverse().flatMap((link) => (
     link.body.split('\n')
       .map(v => v.trim())
       .filter(l => l.startsWith('https://'))
@@ -33,7 +33,7 @@ export async function GET(context) {
           date: new Date(link.slug),
         }
       })
-  )).flat()
+  ))
   return rss({
     title: SITE_TITLE,
     description: SITE_TITLE,
@@ -42,7 +42,7 @@ export async function GET(context) {
       ...blogPosts,
       ...myNotes,
       {
-        title: 'Bookmarks ' + max(links.map(v => new Date(v.date))).toLocaleDateString(),
+        title: `Bookmarks ${max(links.map(v => new Date(v.date))).toLocaleDateString()}`,
         description: '',
         pubDate: max(links.map(v => new Date(v.date))),
         link: '/bookmarks'

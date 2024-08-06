@@ -20,7 +20,7 @@ const posts = (await getCollection("notes")).filter(
     class="flex no-scrollbar flex-col h-full bg-neutral-50 mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 pt-8 pb-16"
   >
     <Header />
-    <main transition:animate={slide({ duration: "0.4s" })}>
+    <main transition:animate={slide({ duration: "0.2s" })}>
       <section>
         <Experiments client:load />
       </section>
