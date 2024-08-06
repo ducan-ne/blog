@@ -54,11 +54,11 @@
     font-display: swap;
     font-family: FoundersGrotesk-Light;
     font-weight: 300;
-    src: url(./FoundersGrotesk-Light.woff2)
+    src: url(/FoundersGrotesk-Light.woff2)
 }
 @font-face {
     font-display: swap;
     font-family: FoundersGrotesk-Medium;
     font-weight: 500;
-    src: url(./FoundersGrotesk-Medium.woff2)
+    src: url(/FoundersGrotesk-Medium.woff2)
 }

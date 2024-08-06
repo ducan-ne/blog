@@ -14,7 +14,6 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings"
 
 export default defineConfig({
 	site: "https://an.cyou",
-	// site: 'http://localhost:4321',
 	integrations: [
 		react(),
 		mdx({
@@ -31,14 +30,14 @@ export default defineConfig({
 		}),
 		tailwind(),
 	],
-	output: "server",
+	output: "hybrid",
 	adapter: deno({
-		// imageService: "passthrough",
+		imageService: "passthrough",
 	}),
 	vite: {
 		optimizeDeps: {
 			entries: ["eslint/lib/linter/linter", "react-dev"],
-			disabled: false,
+			// disabled: false,
 			esbuildOptions: {
 				loader: {
 					".js": "jsx",
@@ -73,9 +72,9 @@ export default defineConfig({
 		},
 	},
 	image: {
-		// service: import.meta.env.PROD
-		// 	? sharpImageService()
-		// 	: passthroughImageService(),
+		service: import.meta.env.PROD
+			? sharpImageService()
+			: passthroughImageService(),
 	},
 	markdown: {
 		shikiConfig: {
@@ -84,5 +83,8 @@ export default defineConfig({
 			wrap: true,
 		},
 		rehypePlugins: [slug, rehypeAutolinkHeadings],
+	},
+	experimental: {
+		contentCollectionCache: true,
 	},
 })
