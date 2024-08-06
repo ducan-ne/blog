@@ -1,0 +1,10 @@
+---
+import Default from "@/layouts/Default.astro";
+import { getCollection } from "astro:content";
+const posts = await getCollection("blog", (entry) => !entry.data.draft);
+---
+
+<Default>
+  Hello it's Duc An, I'm software engineer based in Vietnam, this page will be
+  updated soon
+</Default>
