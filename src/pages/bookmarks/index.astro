@@ -7,22 +7,23 @@ import { fade, slide } from "astro:transitions";
 
 const collection = await getCollection("links");
 const links = collection
-  .map((link) =>
+  .flatMap((link) =>
     link.body
       .split("\n")
       .map((v) => v.trim())
       .filter((l) => l.startsWith("https://"))
       .map((l) => {
         const url = new URL(l.split(" ")[0]);
-        [...url.searchParams.keys()].forEach((v) => url.searchParams.delete(v));
+        for (const v of url.searchParams.keys()) {
+          url.searchParams.delete(v);
+        }
         return {
           link: url.toString(),
           date: link.slug,
         };
       }),
   )
-  .flat()
-  .sort((a, b) => new Date(b.date) - new Date(a.date));
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 ---
 
 <!doctype html>
