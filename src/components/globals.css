@@ -42,3 +42,10 @@
 .no-scrollbar::-webkit-scrollbar {
     display: none;
 }
+
+@font-face {
+    font-family: Font;
+    font-weight: 500;
+    font-display: swap;
+    src: url(/Font.woff2) format("woff2")
+}
