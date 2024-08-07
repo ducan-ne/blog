@@ -7,8 +7,7 @@ draft: false
 ---
 
 <blockquote className="text-red-400">
-  This isn't a recommendation, and I don't advise using it in a production
-  environment.
+  This is an experimental concept and not recommended for production use.
 </blockquote>
 Lately I had a chance to work with **Scratch GUI** and their React components, surprisingly
 the bundle size of the GUI is over *30MB* (15mb gzipped), like many others, I decided
@@ -18,7 +17,7 @@ to lazy loading the React components, and it reminds me how the `lazy` api work.
 
 According to [React documentation](https://react.dev/reference/react/lazy), it states that
 
-> `lazy` lets you defer loading component’s code until it is rendered for the first time.
+> `lazy` lets you defer loading component's code until it is rendered for the first time.
 
 In short, `lazy` helps you to split out your bundle into smaller chunks and load it when it's needed. I believe this terms is not new to anyone who has been working with React for a while.
 But trust me. This post will unlock your mind of how `lazy` works.
@@ -110,6 +109,4 @@ Here is an implementation for loading a React component through websocket,
 I've also prepared a websocket server. You can give it a try on the playground.
 I think you will get the idea. [Server code](https://github.com/ducan-ne/blog/blob/main/code/websocket-component/index.js)
 
-<Playground name="react-websocket" active="App.js"></Playground>
-
-I believe that 
+<Playground name="react-websocket" active="App.js"/>

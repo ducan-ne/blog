@@ -13,6 +13,12 @@ const { pathname } = Astro.url;
                     >an</a
                 >
                 <a
+                    href="/about"
+                    class={`font-medium text-base text-neutral-800 underline-offset-4 ${pathname === "/about" ? "underline" : ""}`}
+                >
+                    about
+                </a>
+                <a
                     href="/til"
                     class={`font-medium text-base text-neutral-800 underline-offset-4 ${pathname === "/til" ? "underline" : ""}`}
                     >til</a
@@ -23,15 +29,18 @@ const { pathname } = Astro.url;
                     >notes</a
                 >
                 <a
-                    href="/about"
-                    class={`font-medium text-base text-neutral-800 underline-offset-4 ${pathname === "/about" ? "underline" : ""}`}
-                    >about</a
-                >
-                <a
                     href="/bookmarks"
                     class={`font-medium text-base text-neutral-800 underline-offset-4 ${pathname === "/bookmarks" ? "underline" : ""}`}
                     >bookmarks</a
                 >
+                <a
+                    href="https://twitter.com/duc__an"
+                    class={`font-medium text-base text-neutral-800 underline-offset-4`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    twitter
+                </a>
                 <a
                     href="/rss.xml"
                     class={`font-medium text-base text-neutral-800 underline-offset-4`}
