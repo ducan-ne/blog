@@ -1,0 +1,96 @@
+---
+title: "Lazy Loading React Components via Websocket (and Other Wild Ideas)"
+description: "Pushing the boundaries of React's lazy loading capabilities"
+created: 2023-09-27T02:24
+updated: 2023-09-27T06:41
+draft: false
+---
+
+<blockquote className="text-red-400">
+  This is an experimental concept and not recommended for production use.
+</blockquote>
+
+So, I've been tinkering with **Scratch GUI** lately, and holy moly – their bundle size is a whopping *30MB* (15MB gzipped)! Like any sane developer, I thought, "Time for some lazy loading magic." But as I dug into React's `lazy` API, I realized there's more to it than meets the eye.
+
+### Lazy Loading: The Basics (with a Twist)
+
+You probably know the drill: `lazy` lets you split your bundle and load components on-demand. But let's take a closer look at how it actually works:
+
+```js
+import { lazy } from "react";
+
+const MarkdownPreview = lazy(() => import("./MarkdownPreview.js"));
+```
+
+As you can see, `lazy` takes a function that returns a promise, and the promise should resolve to a module with a `default` export containing a React component. But if we read it carefully, we'll notice that `lazy` accepts a function that returns a `thenable` function (aka a promise), and the promise should resolve to a plain object with a `default` key that contains a React component, like this:
+
+```
+{
+  default: () => React.ReactNode
+}
+```
+
+That's the `module` we're talking about – just an object, right? We can create it ourselves.
+
+So, what's the point? Can we make the function argument like this? Is it valid?
+
+```js
+import { lazy } from "react";
+import TheRealMarkDownPreview from "./MarkdownPreview.js";
+
+const MarkdownPreview = lazy(async () => {
+  // just return the module, can we?
+  return TheRealMarkDownPreview;
+});
+```
+
+```js
+import { lazy } from "react";
+
+const MarkdownPreview = lazy(async () => {
+  await doSomething();
+  await doSomethingElse();
+  await fetchApi();
+  const theRealModule = await import("./MarkdownPreview.js");
+
+  return theRealModule;
+});
+```
+
+Absolutely, we can. The point here is that we can do whatever we want inside the function, as long as it returns a `thenable` function that resolves to a module with a `default` key that contains a React component. Even if we didn't use `import('./MarkdownPreview.js')` directly, it's still fine.
+
+### Loading React Components over Websocket?
+
+The blog title is just bluffing, but it's not that far-fetched. I believe you have some understanding after reading the previous section. You might've noticed that you can do some tasks before returning the object module, but have you considered this scenario?
+
+```js
+import { lazy } from "react";
+
+// load my component via http
+const MarkdownPreview = lazy(async () => {
+  const res = await fetch("/api/load-component?name=MarkdownPreview");
+  const componentData = await res.json(); // { jsUrl: 'https://another-website.com/dist/MarkdownPreview.js' }
+  // just load the script by appending a script tag
+  await runScript(componentData.jsUrl);
+  // the component is now available in the global scope,
+  // it injects to the window object as `MarkdownPreview` variable
+  // that's the logic, but not limited to this
+  const theModuleLoadedViaHttp = window.MarkdownPreview; // { default: ReactComponent }
+
+  // should be ok
+  return theModuleLoadedViaHttp;
+});
+```
+
+But why? Why do we need to do that? The goal is to free your mind from the documentation and encourage thinking outside the box. With a fundamentally different understanding of the API, we can do more things.
+
+If you're still curious about use cases, here are a few examples:
+
+- A page or module that is accessible only to certain users. Load the module using HTTP and verify the user's permission before providing the component's URL.
+- Like how Facebook.com does it now, they have an infrastructure to manage these things, like how to load components.
+- You can load the scripts from a CDN, it's not limited to React components, load anything you want.
+- Micro FE?
+
+Here's an implementation for loading a React component through a websocket, and I've also prepared a websocket server. You can give it a try on the playground. I think you'll get the idea. [Server code](https://github.com/ducan-ne/blog/blob/main/code/websocket-component/index.js)
+
+<Playground name="react-websocket" active="App.js"/>
