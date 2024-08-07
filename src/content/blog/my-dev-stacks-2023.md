@@ -1,7 +1,7 @@
 ---
 title: My Dev Stacks in 2023
 created: 2023-09-27T02:24
-updated: 2024-04-22T23:57
+updated: 2024-08-08T02:45
 draft: false
 ---
 
@@ -14,4 +14,4 @@ This year is my first time tried to be an entrepreneur, so move fast is the stac
 - Move out of Docker/K8s
 - Move out of native languages: Go, Rust
 
-.. To be updated
+I choose this to build https://correctify.ai
