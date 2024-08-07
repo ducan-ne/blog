@@ -14,13 +14,13 @@ const posts = await getCollection("blog", (entry) => !entry.data.draft);
         posts.map((post) => (
           <ul class="py-2.5 group">
             <a href={`/blog/${post.slug}`} class="flex items-center space-x-4">
-              <p class="text-neutral-400 font-medium text-sm">
+              <div class="text-neutral-400 font-medium text-sm">
                 <time datetime={post.data.created.toISOString()}>
-                  {format(post.data.created, "MMM, yyyy")}
+                  {format(post.data.created, "MMM yyyy")}
                 </time>
-              </p>
+              </div>
               <p
-                class="group-hover:underline"
+                class="group-hover:underline flex-1 line-clamp-1"
                 transition:name={`blog-${post.data.title}`}
               >
                 {post.data.title}

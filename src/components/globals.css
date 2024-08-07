@@ -51,6 +51,13 @@
 }
 
 @font-face {
+    font-family: ComicShanns-Regular;
+    font-weight: 500;
+    font-display: swap;
+    src: url(/ComicShanns-Regular.woff2) format("woff2")
+}
+
+@font-face {
     font-display: swap;
     font-family: FoundersGrotesk-Light;
     font-weight: 300;

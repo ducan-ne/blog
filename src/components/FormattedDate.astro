@@ -9,5 +9,5 @@ const { date } = Astro.props;
 ---
 
 <time datetime={date.toISOString()}>
-	{format(date, "MMM, yyyy")}
+	{format(date, "MMM yyyy")}
 </time>

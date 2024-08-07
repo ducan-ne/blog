@@ -30,7 +30,7 @@ export default defineConfig({
 		}),
 		tailwind(),
 	],
-	output: "hybrid",
+	output: "server",
 	adapter: deno({
 		imageService: "passthrough",
 	}),

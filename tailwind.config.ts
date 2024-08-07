@@ -13,7 +13,7 @@ export default {
 		...theme,
 		fontFamily: {
 			...theme.fontFamily,
-			sans: ['Font', ...defaultTheme.fontFamily.sans],
+			sans: ['ComicShanns-Regular', ...defaultTheme.fontFamily.sans],
 			mono: ['JetBrains Mono', ...defaultTheme.fontFamily.mono],
 		},
 	},
