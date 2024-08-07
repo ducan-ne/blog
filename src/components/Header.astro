@@ -9,32 +9,33 @@ const { pathname } = Astro.url;
             <div class="flex gap-4">
                 <a
                     href="/"
-                    class={`font-medium text-base text-neutral-800 ${pathname === "/" ? "underline" : ""}`}
+                    class={`font-medium text-base text-neutral-800 underline-offset-4 ${pathname === "/" ? "underline" : ""}`}
                     >an</a
                 >
                 <a
                     href="/til"
-                    class={`font-medium text-base text-neutral-800 ${pathname === "/til" ? "underline" : ""}`}
+                    class={`font-medium text-base text-neutral-800 underline-offset-4 ${pathname === "/til" ? "underline" : ""}`}
                     >til</a
                 >
                 <a
                     href="/notes"
-                    class={`font-medium text-base text-neutral-800 ${pathname === "/notes" ? "underline" : ""}`}
+                    class={`font-medium text-base text-neutral-800 underline-offset-4 ${pathname === "/notes" ? "underline" : ""}`}
                     >notes</a
                 >
                 <a
                     href="/about"
-                    class={`font-medium text-base text-neutral-800 ${pathname === "/about" ? "underline" : ""}`}
+                    class={`font-medium text-base text-neutral-800 underline-offset-4 ${pathname === "/about" ? "underline" : ""}`}
                     >about</a
                 >
                 <a
                     href="/bookmarks"
-                    class={`font-medium text-base text-neutral-800 ${pathname === "/bookmarks" ? "underline" : ""}`}
+                    class={`font-medium text-base text-neutral-800 underline-offset-4 ${pathname === "/bookmarks" ? "underline" : ""}`}
                     >bookmarks</a
                 >
                 <a
                     href="/rss.xml"
-                    class={`font-medium text-base text-neutral-800`}>rss</a
+                    class={`font-medium text-base text-neutral-800 underline-offset-4`}
+                    >rss</a
                 >
             </div>
         </div>

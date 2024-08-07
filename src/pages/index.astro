@@ -20,7 +20,7 @@ const posts = await getCollection("blog", (entry) => !entry.data.draft);
                 </time>
               </div>
               <p
-                class="group-hover:underline flex-1 line-clamp-1"
+                class="group-hover:underline flex-1 line-clamp-1 underline-offset-4"
                 transition:name={`blog-${post.data.title}`}
               >
                 {post.data.title}
