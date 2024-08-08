@@ -69,3 +69,16 @@
     font-weight: 500;
     src: url(/FoundersGrotesk-Medium.woff2)
 }
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+* {
+    text-underline-offset: 3px;
+}
+
+h1, h2, h3, h4, h5, h6, a {
+    text-underline-offset: 6px;
+}

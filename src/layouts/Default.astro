@@ -3,6 +3,11 @@ import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import { slide } from "astro:transitions";
+interface Props {
+  stripHeader?: boolean;
+}
+
+const { stripHeader } = Astro.props;
 ---
 
 <!doctype html>
@@ -11,11 +16,21 @@ import { slide } from "astro:transitions";
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
   <body
-    class="flex flex-col h-full bg-gray-100 mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 pt-8 pb-16"
+    class="flex flex-col h-full bg-gray-100 mx-auto max-w-2xl px-4 sm:px-6 lg:px-8 pt-8 pb-16 no-scrollbar"
+    style="overscroll-behavior-x:auto"
   >
-    <Header title={SITE_TITLE} />
+    {stripHeader ? null : <Header title={SITE_TITLE} />}
     <main transition:animate={slide({ duration: "0.2s" })}>
       <slot />
     </main>
+    <script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"
+    ></script>
+    <noscript
+      ><img
+        src="https://queue.simpleanalyticscdn.com/noscript.gif"
+        alt=""
+        referrerpolicy="no-referrer-when-downgrade"
+      /></noscript
+    >
   </body>
 </html>
