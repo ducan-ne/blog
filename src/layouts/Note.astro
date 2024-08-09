@@ -12,7 +12,7 @@ type Props = CollectionEntry<"blog">["data"] & {
 const { title, stripHeader } = Astro.props;
 ---
 
-<Default stripHeader={stripHeader}>
+<Default stripHeader={stripHeader} title={title}>
     <article class="prose">
         <h1
             transition:name={`note-${title}`}

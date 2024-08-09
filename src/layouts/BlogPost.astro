@@ -8,7 +8,7 @@ type Props = CollectionEntry<"blog">["data"];
 const { title, description } = Astro.props;
 ---
 
-<Default>
+<Default title={title} description={description}>
 	<article class="prose">
 		<h1
 			transition:name={`blog-${title}`}
