@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 export default function Example1() {
   return (
     <>
+      Default:
+      <br />
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -20,6 +22,10 @@ export default function Example1() {
         <path d="M7 11h12" />
         <motion.path d="M7 6h3" />
       </svg>
+      <br />
+      <br />
+      Animated:
+      <br />
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
