@@ -1,0 +1,104 @@
+---
+title: Animated icon with Framer Motion
+description: Animated SVG icon with Framer Motion
+created: 2024-12-05
+updated: 2024-12-05
+vn: true
+---
+
+import "./animated-icon.css";
+import video from "../../assets/animated-icon-1.mp4";
+
+Lần đầu tiên mình thấy SVG icon động là khi Resend.com ra mắt. Chúng giúp giảm bớt sự đơn điệu của dashboard chỉ toàn màu đen. Lúc đó, mình đã tự hỏi **bao giờ mình có thể làm được thứ tương tự**.
+
+<video src={video} autoPlay loop className="w-full h-[400px]" />
+
+Qua hai năm, sau nhiều bài viết trên X, các khóa học như [animations.dev](https://animations.dev), và các bài chia sẻ của [nandafyi](https://x.com/nandafyi), mình đã hiểu thêm về cách SVG hoạt động.
+
+Quay lại vài tháng trước, mình quyết định thử nghiệm với vài icon từ **lucide-react** để xem liệu việc này có khả thi không. Và ...nó không khó như mình tưởng! [**/experiments**](/experiments).
+
+## Animate Icon
+
+Trước khi đi sâu vào cách animate icon, bạn có lẽ muốn tìm hiểu thêm về SVG qua [Bài chia sẻ về SVG](https://github.com/xuanvan229/advent-of-sharing/blob/dc2a06faffd207798be783b09beee8766d321449/2023/day-24.md) từ **AOS 2023**.
+
+Trong bài viết này, thay vì sử dụng builtin animation của SVG hay CSS, chúng ta sẽ sử dụng **Framer Motion** để tạo hiệu ứng cho icon.
+**Framer Motion** là 1 thư viện animation mạnh, dễ dùng kể cả với người mới
+
+Dưới đây là một file SVG đơn giản:
+
+```jsx
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  class="lucide lucide-wrench"
+>
+  <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+</svg>
+```
+
+Thành phần chính của SVG này là `<path>`, trong đó `d` (path data) mô tả cách path được vẽ.
+
+Để thêm hiệu ứng cho icon, mình sử dụng attribute `pathLength`. Hiểu đơn giản, nó cho phép "vẽ" path từ 0% đến 100% mà không cần chúng ta xử lý từng điểm. Kết hợp với **Framer Motion**, bạn có thể đạt được hiệu ứng như sau:
+
+<Playground
+  style={{ "--sp-layout-height": "200px" }}
+  name="animated-icon/1"
+  active="App.js"
+/>
+
+### Cách hoạt động
+
+1. **Đổi qua `motion.path`** import Framer Motion thay vì `path` thông thường để dùng các function animation của Framer.
+2. **Định nghĩa animation cho mỗi path**:
+   - `initial`: Trạng thái ban đầu, ví dụ `pathLength: 0` (path chưa được vẽ).
+   - `animate`: Các trạng thái animation mà path sẽ đi qua.
+   - `transition`: Cấu hình thêm cho animation như `duration`, `delay`, hoặc `repeat`.
+3. Trong ví dụ trên, có ba path với các animation khác nhau:
+   - **Path 1**: `pathLength: [0, 1, 0]` - vẽ từ 0 đến 100% rồi reset về 0.
+   - **Path 2**: `pathLength: [0, 1, 1.2, 1, 0]` - vẽ từ 0 đến 100%, vượt quá rồi quay lại và reset.
+   - **Path 3**: `pathLength: [0, 1, 1.2, 1.4, 1.2, 1, 0]` - tương tự nhưng 2 cái trên nhưng sẽ phức tạp hơn xíu.
+
+Mỗi path được đặt `delay` khác nhau (0, 0.2, 0.4) để tạo hiệu ứng tuần tự. Tất cả đều set `repeat: Infinity` để lặp vô hạn.
+
+Chúng ta có thể thấy sử dụng `pathLength` là cách đơn giản nhưng hiệu quả để animate SVG. Nếu muốn nâng cao hơn, bạn có thể kết hợp các tính năng khác của Framer Motion, ví dụ kết hợp với **Gesture**, để tạo hiệu ứng phức tạp.
+
+### Một vài ví dụ khác
+
+#### Transform Icon khi click
+
+Kết hợp nhiều `path`, kết hợp toggle trạng thái animation linh hoạt.
+
+<Playground name="animated-icon/2" active="App.js" />
+
+#### Animate khi hover icon
+
+<Playground name="animated-icon/3" active="App.js" />
+
+## Animate icon của riêng bạn
+
+Nếu đã quen với Framer Motion, việc tạo ra 1 animated icon có vẻ không khó. Nhưng nếu mới bắt đầu, hãy tham khảo các cách sau:
+
+1. **Tham khảo open source animated icon gần đây**: [https://icons.pqoqubbw.dev/](https://icons.pqoqubbw.dev/)
+2. [/experiments](https://github.com/ducan-ne/blog/blob/main/src/experiments/2.svg-animations.ts) code
+3. **Sử dụng AI để hỗ trợ**:
+   - Gửi file SVG của icon bạn muốn animate cho AI.
+   - Mô tả hiệu ứng mong muốn hoặc đính kèm hình minh họa để nhờ AI tạo ra animation tương ứng với icon.
+   - Copy đoạn code AI tạo ra và tích hợp vào project của bạn.
+
+## Kết
+
+Nhiều người, kể cả mình, từng nghĩ rằng thêm animation vào ứng dụng là việc khó và tốn kém.
+Nhưng với các công cụ hiện đại (như Framer Motion) và sự hỗ trợ từ AI, việc animate thứ gì đó đã trở nên đơn giản hơn rất nhiều.
+Khiến 1 app đang nhàm chán trở nên tốt hơn rất nhiều. Hy vọng bạn sẽ thử nghiệm và mang đến nhiều hiệu ứng thú vị trong dự án của mình!
+
+## Đọc thêm:
+
+- https://motion.dev/docs/react-examples
+- https://blog.noelcserepy.com/how-to-animate-svg-paths-with-framer-motion

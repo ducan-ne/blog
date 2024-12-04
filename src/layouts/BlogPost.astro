@@ -9,14 +9,14 @@ const { title, description } = Astro.props;
 ---
 
 <Default title={title} description={description}>
-	<article class="prose">
-		<h1
-			transition:name={`blog-${title}`}
-			transition:animate={fade({ duration: "0.1s" })}
-		>
-			{title}
-		</h1>
-		<hr class="my-2 mb-4" />
-		<slot />
-	</article>
+  <article class="prose w-full">
+    <h1
+      transition:name={`blog-${title}`}
+      transition:animate={fade({ duration: "0.1s" })}
+    >
+      {title}
+    </h1>
+    <hr class="my-2 mb-4" />
+    <slot />
+  </article>
 </Default>

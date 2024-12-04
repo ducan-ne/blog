@@ -6,7 +6,7 @@ import {
 const blog = defineCollection({
   // Type-check frontmatter using a schema
   schema: z.object({
-    vietnamese: z.boolean().optional(),
+    vn: z.boolean().optional(),
     tags: z.array(z.string()).optional(),
     title: z.string(),
     description: z.string().optional(),

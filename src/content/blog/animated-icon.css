@@ -1,0 +1,8 @@
+.sp-stack {
+  min-height: 18vh !important;
+  max-height: 18vh !important;
+}
+
+[class="absolute dark:border-gray-700 bg-white dark:bg-gray-95 border-t bottom-0 w-full dark:text-white"] {
+  display: none;
+}

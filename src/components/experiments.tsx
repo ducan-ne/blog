@@ -19,7 +19,7 @@ const sortedExperiments = Object.entries(experiments)
 		const Component = Object.values(module)[0] as () => JSX.Element
 		return { number, name, id, Component }
 	})
-	.sort((a, b) => a.number - b.number)
+	.sort((a, b) => b.number - a.number)
 
 export function Experiments() {
 	return (
